@@ -20,13 +20,10 @@ namespace RepositoryLayer.Migrations
 
             modelBuilder.Entity("RepositoryLayer.Entity.User", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
@@ -37,9 +34,12 @@ namespace RepositoryLayer.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("users");
+                    b.HasKey("UserId");
+
+                    b.ToTable("user");
                 });
 #pragma warning restore 612, 618
         }

@@ -9,8 +9,8 @@ using RepositoryLayer.Context;
 namespace RepositoryLayer.Migrations
 {
     [DbContext(typeof(FundooDbContext))]
-    [Migration("20220506100944_MigrationV1")]
-    partial class MigrationV1
+    [Migration("20220509080203_FundooData")]
+    partial class FundooData
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -22,13 +22,10 @@ namespace RepositoryLayer.Migrations
 
             modelBuilder.Entity("RepositoryLayer.Entity.User", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
@@ -39,9 +36,12 @@ namespace RepositoryLayer.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("users");
+                    b.HasKey("UserId");
+
+                    b.ToTable("user");
                 });
 #pragma warning restore 612, 618
         }

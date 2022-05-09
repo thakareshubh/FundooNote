@@ -1,4 +1,5 @@
-﻿using CommonLayer.NewUser;
+﻿
+using CommonLayer.Users;
 using RepositoryLayer.Entity;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,8 @@ namespace RepositoryLayer.Interface
 {
     public interface IuserRl
     {
-        public void AddUser(User user);
+        public void AddUser(UserPostModel userPost);
+
+       
     }
 }

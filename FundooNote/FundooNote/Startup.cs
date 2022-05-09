@@ -18,6 +18,8 @@ using RepositoryLayer.Interface;
 using RepositoryLayer.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace FundooNote
 {
@@ -64,6 +66,24 @@ namespace FundooNote
                 {
                     {jwtSecurityScheme, Array.Empty<string>() }
                 });
+            });
+
+            //login Authontication
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("THIS_IS_MY_KEY_TO_GENERATE_TOKEN")),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
             });
         }
 

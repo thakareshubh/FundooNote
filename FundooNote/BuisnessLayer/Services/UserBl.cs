@@ -1,4 +1,5 @@
 ﻿using BuisnessLayer.Interface;
+using CommonLayer.Users;
 using RepositoryLayer.Entity;
 using RepositoryLayer.Interface;
 using System;
@@ -9,22 +10,22 @@ namespace BuisnessLayer.Services
 {
     public class UserBl : IuserBl
     {
-        IuserRl iuserRl;
+        IuserRl userRl;
+
         public UserBl(IuserRl iuserRl)
         {
-            this.iuserRl = iuserRl;
+            this.userRl = iuserRl;
         }
-        public void AddUser(User user)
+        public void AddUser(UserPostModel userPost)
         {
             try
             {
-                this.iuserRl.AddUser(user);
+                this.userRl.AddUser(userPost);
             }
             catch (Exception e)
             {
                 throw e;
             }
-            
         }
     }
 }
