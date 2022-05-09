@@ -16,6 +16,8 @@ namespace BuisnessLayer.Services
         {
             this.userRl = iuserRl;
         }
+
+        //Add user code
         public void AddUser(UserPostModel userPost)
         {
             try
@@ -27,5 +29,18 @@ namespace BuisnessLayer.Services
                 throw e;
             }
         }
+        //Login new user
+        public string LoginUser(string email, string password)
+        {
+            try
+            {
+                return this.userRl.LoginUser(email, password);  
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
     }
 }

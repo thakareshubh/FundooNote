@@ -10,7 +10,8 @@ namespace RepositoryLayer.Interface
     public interface IuserRl
     {
         public void AddUser(UserPostModel userPost);
+        public string LoginUser(string email, string password);
 
-       
+
     }
 }

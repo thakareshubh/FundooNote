@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using RepositoryLayer.Context;
 using RepositoryLayer.Entity;
 using System;
+using System.Linq;
 
 namespace FundooNote.Controllers
 {
@@ -24,7 +25,7 @@ namespace FundooNote.Controllers
             this.iuserBl = iuserBl;
         }
 
-        [HttpPost]
+        [HttpPost("Add user")]
         public ActionResult AddUser(UserPostModel user)
         {
             try
@@ -35,6 +36,28 @@ namespace FundooNote.Controllers
             catch (Exception e)
             {
                 throw e;
+            }
+        }
+
+        [HttpPost("LoginUser")]
+
+        public ActionResult LoginUser(string email,string password)
+        {
+            try
+            {
+
+                var userdata = fundooDbContext.user.FirstOrDefault(u => u.Email == email && u.Password == password);
+                string token = this.iuserBl.LoginUser(email, password);
+                if (token == null)
+                {
+                    return this.BadRequest(new { success = false,massage=$"Email or Password Invalid" }) ;
+                }
+
+                return this.Ok(new { sucess = true, message = $"Token generated is " + token });
+            }
+            catch(Exception e)
+            {
+                return this.BadRequest(new { succes = false, massage = $"Login faild {e.Message}" });
             }
         }
 
