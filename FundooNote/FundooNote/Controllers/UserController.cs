@@ -61,5 +61,25 @@ namespace FundooNote.Controllers
             }
         }
 
+        //forget password
+        [HttpPost("ForgotPassword")]
+        public ActionResult ForgotPassword(string email)
+        {
+            try
+            {
+                var result = this.iuserBl.ForgotPassword(email);
+                if (result != false)
+                {
+                    return this.Ok(new { success = true, message = $"Mail Sent Successfully " + $" token:  {result}" });
+                }
+                return this.BadRequest(new { success = false, message = $"mail not sent" });
+            }
+            catch (Exception e )
+            {
+
+                throw e;
+            }
+        }
+
     } 
 }

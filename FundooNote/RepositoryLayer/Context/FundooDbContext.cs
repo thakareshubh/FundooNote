@@ -11,6 +11,7 @@ namespace RepositoryLayer.Context
         }
 
         public DbSet<User> user { get; set; }
-        
+
+        public DbSet<Note> note{ get; set; }
     }
 }

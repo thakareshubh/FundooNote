@@ -109,6 +109,7 @@ namespace FundooNote
             });
 
             app.UseSwagger();
+            app.UseAuthentication();
 
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.)
             app.UseSwaggerUI(c =>
@@ -118,7 +119,7 @@ namespace FundooNote
 
            
 
-            app.UseAuthentication();
+            
         }
     }
 }

@@ -29,6 +29,10 @@ namespace BuisnessLayer.Services
                 throw e;
             }
         }
+
+        
+       
+
         //Login new user
         public string LoginUser(string email, string password)
         {
@@ -42,5 +46,20 @@ namespace BuisnessLayer.Services
             }
         }
 
+        //forgot password
+        public bool ForgotPassword(string email)
+        {
+            {
+                try
+                {
+                    return this.userRl.ForgotPassword(email);
+                }
+                catch (Exception e)
+                {
+
+                    throw e;
+                }
+            }
+        }
     }
 }

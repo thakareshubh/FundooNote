@@ -11,5 +11,7 @@ namespace BuisnessLayer.Interface
         public void AddUser(UserPostModel userPost);
 
         public string LoginUser(string email, string password);
+
+        public bool ForgotPassword(string email);
     }
 }
