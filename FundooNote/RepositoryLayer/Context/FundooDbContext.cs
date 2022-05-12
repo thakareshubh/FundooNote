@@ -12,13 +12,13 @@ namespace RepositoryLayer.Context
 
         public DbSet<User> user { get; set; }
         public DbSet<Note> notes{ get; set; }
-       protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>()
             .HasIndex(u => u.Email)
             .IsUnique();
 
         }
-       
+
     }
 }

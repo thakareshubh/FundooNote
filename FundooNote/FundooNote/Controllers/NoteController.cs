@@ -29,7 +29,7 @@ namespace FundooNote.Controllers
         {
             try
             {
-                var userid = User.Claims.FirstOrDefault(x => x.Type.ToString().Equals("userID", StringComparison.InvariantCultureIgnoreCase));
+                var userid = User.Claims.FirstOrDefault(x => x.Type.ToString().Equals("UserId", StringComparison.InvariantCultureIgnoreCase));
                 int UserId = Int32.Parse(userid.Value);
 
                 await this.inoteBl.AddNote(UserId, notePostModel);
@@ -41,7 +41,11 @@ namespace FundooNote.Controllers
                 throw ex;
             }
         }
-
+        /// <summary>
+        /// Delete the note
+        /// </summary>
+        /// <param name="UserId"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpDelete("DeleteNote")]
         public ActionResult DeleteNote(int UserId)
@@ -63,6 +67,38 @@ namespace FundooNote.Controllers
             }
         }
 
+       
+        /// <summary>
+        /// Change color of note
+        /// </summary>
+        /// <param name="noteId"></param>
+        /// <param name="color"></param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpPut("changeColor")]
+
+        public async Task<ActionResult>ChangeColor(int noteId,string color)
+        {
+            try
+            {
+                var userid = User.Claims.FirstOrDefault(x => x.Type.ToString().Equals("UserId", StringComparison.InvariantCultureIgnoreCase));
+                int UserId = Int32.Parse(userid.Value);
+
+                var note=fundooDbContext.notes.FirstOrDefault(e => e.UserId == UserId && e.NoteId == noteId);
+                if(note == null)
+                {
+                    return this.BadRequest(new { success = false, message = "Sorry! Note does not exixt" });
+                }
+
+                await this.inoteBl.ChangeColor(UserId,noteId,color);
+                return this.Ok(new { success = false, message = "color change succesfully" });
+
+            }
+            catch(Exception e)
+            {
+                throw e;
+            }
+        }
 
 
 
