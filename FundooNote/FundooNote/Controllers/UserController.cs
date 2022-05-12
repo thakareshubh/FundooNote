@@ -8,10 +8,11 @@ using RepositoryLayer.Context;
 using RepositoryLayer.Entity;
 using System;
 using System.Linq;
+using System.Security.Claims;
 
 namespace FundooNote.Controllers
 {
-    
+
     [ApiController]
     [Route("[controller]")]
     public class UserController : ControllerBase
@@ -19,7 +20,7 @@ namespace FundooNote.Controllers
         FundooDbContext fundooDbContext;
         IuserBl iuserBl;
 
-        public UserController(FundooDbContext fundooDbContext,IuserBl iuserBl)
+        public UserController(FundooDbContext fundooDbContext, IuserBl iuserBl)
         {
             this.fundooDbContext = fundooDbContext;
             this.iuserBl = iuserBl;
@@ -41,7 +42,7 @@ namespace FundooNote.Controllers
 
         [HttpPost("LoginUser")]
 
-        public ActionResult LoginUser(string email,string password)
+        public ActionResult LoginUser(string email, string password)
         {
             try
             {
@@ -50,12 +51,12 @@ namespace FundooNote.Controllers
                 string token = this.iuserBl.LoginUser(email, password);
                 if (token == null)
                 {
-                    return this.BadRequest(new { success = false,massage=$"Email or Password Invalid" }) ;
+                    return this.BadRequest(new { success = false, massage = $"Email or Password Invalid" });
                 }
 
                 return this.Ok(new { sucess = true, message = $"Token generated is " + token });
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return this.BadRequest(new { succes = false, massage = $"Login faild {e.Message}" });
             }
@@ -74,12 +75,41 @@ namespace FundooNote.Controllers
                 }
                 return this.BadRequest(new { success = false, message = $"mail not sent" });
             }
-            catch (Exception e )
+            catch (Exception e)
             {
 
                 throw e;
             }
         }
 
-    } 
+        /// <summary>
+        /// reset the password
+        /// </summary>
+        /// <param name="resetPasswordModel"></param>
+        /// <returns></returns>
+        /// 
+        [Authorize]
+        [HttpPut("ResetPassword")]
+
+        public ActionResult ResetPassword(ResetPasswordModel resetPasswordModel)
+        {
+            try
+            {
+
+                string email = User.FindFirst(ClaimTypes.Email).Value.ToString();
+                bool result = iuserBl.ResetPassword(resetPasswordModel, email);
+                if (result == false)
+                {
+                    return this.BadRequest(new { success = false, message = "Enter valid password" });
+
+                }
+
+                return this.Ok(new { success = true, message = "reset password set successfully" });
+            }
+            catch
+            {
+                throw;
+            }
+        }
+    }
 }

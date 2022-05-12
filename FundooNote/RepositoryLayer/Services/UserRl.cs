@@ -1,7 +1,6 @@
 ﻿
 using CommonLayer.Users;
 using Experimental.System.Messaging;
-using Microsoft.Exchange.WebServices.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using RepositoryLayer.Context;
@@ -180,6 +179,26 @@ namespace RepositoryLayer.Services
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
+        }
+
+        //ResetPassword
+        public bool ResetPassword(ResetPasswordModel resetPassword, string email)
+        {
+            try
+            {
+                if(resetPassword.NewPassword == resetPassword.ConfirmPassword)
+                {
+                    var result=fundooDbContext.user.Where(x => x.Email == email).FirstOrDefault();
+                    result.Password=resetPassword.NewPassword;
+                    fundooDbContext.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 

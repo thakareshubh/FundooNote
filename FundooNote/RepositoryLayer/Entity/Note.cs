@@ -24,6 +24,8 @@ namespace RepositoryLayer.Entity
         public DateTime RegisterDate { get; set; }
         public DateTime ModifyDate { get; set; }
         public DateTime ReminderDate{ get; set; }
+
+        //User Id is foriegn key
         public int UserId { get; set; }
         public virtual User User { get; set; }
 

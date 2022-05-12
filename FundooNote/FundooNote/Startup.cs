@@ -41,6 +41,9 @@ namespace FundooNote
             services.AddTransient<IuserRl, UserRl>();
             services.AddTransient<IuserBl , UserBl>();
 
+            services.AddTransient<InoteBl , NoteBl>();
+            services.AddTransient<InoteRl , NoteRl>();
+
 
             services.AddSwaggerGen(setup =>
             {
@@ -85,6 +88,7 @@ namespace FundooNote
                     ValidateAudience = false
                 };
             });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -95,7 +99,7 @@ namespace FundooNote
                 app.UseDeveloperExceptionPage();
             }
 
-
+            app.UseAuthentication();
             app.UseHttpsRedirection();
 
             app.UseRouting();
@@ -109,17 +113,18 @@ namespace FundooNote
             });
 
             app.UseSwagger();
-            app.UseAuthentication();
+            
 
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.)
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "FundooNotes");
             });
-
-           
-
             
+
+
+
+
         }
     }
 }
