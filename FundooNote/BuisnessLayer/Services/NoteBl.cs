@@ -80,6 +80,19 @@ namespace BuisnessLayer.Services
             }
         }
 
+        //Get all Note
+        public Task<List<Note>> GetAllNote(int userId)
+        {
+            try
+            {
+                return this.inoteRl.GetAllNote(userId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         //Get note
         public  async Task<Note> GetNote(int noteId)
         {

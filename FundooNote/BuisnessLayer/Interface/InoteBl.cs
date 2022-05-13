@@ -16,5 +16,6 @@ namespace BuisnessLayer.Interface
         Task<Note> UpdateNote(int noteId, NoteUpDateModel noteUpdateModel);
         Task<Note> GetNote(int noteId);
         Task<Note> TrashNote(int userId, int noteId);
+        Task<List<Note>> GetAllNote(int userId);
     }
 }

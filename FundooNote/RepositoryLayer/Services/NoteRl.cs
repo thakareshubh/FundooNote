@@ -115,6 +115,7 @@ namespace RepositoryLayer.Services
             }
         }
 
+        //Update Note
         public async Task<Note> UpdateNote(int noteId, NoteUpDateModel noteUpdateModel)
         {
             try
@@ -184,5 +185,17 @@ namespace RepositoryLayer.Services
             }
         }
 
+        public async Task<List<Note>> GetAllNote(int userId)
+        {
+            try
+            {
+                return await fundooDbContext.notes.Where(u => u.UserId == userId).Include(u => u.User).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+    
     }
 }
