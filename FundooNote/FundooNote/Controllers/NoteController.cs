@@ -3,6 +3,7 @@ using CommonLayer.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RepositoryLayer.Context;
+using RepositoryLayer.Entity;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -100,7 +101,110 @@ namespace FundooNote.Controllers
             }
         }
 
+        /// <summary>
+        /// Archieve Note
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="noteId"></param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpPut("ArchiveNote")]
+        public async Task<ActionResult> ArchiveNote(int userId, int noteId)
+        {
+            try
+            {
+                var userid = User.Claims.FirstOrDefault(x => x.Type.ToString().Equals("userID", StringComparison.InvariantCultureIgnoreCase));
+                int UserId = Int32.Parse(userid.Value);
+                var note = fundooDbContext.notes.FirstOrDefault(e => e.UserId == UserId && e.NoteId == noteId);
+                if (note == null)
+                {
+                    return this.BadRequest(new { success = false, message = "Failed to Archive Note" });
+                }
+                await this.inoteBl.ArchiveNote(UserId, noteId);
+                return this.Ok(new { success = true, message = " Archived Successfully" });
+
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
 
 
+        [Authorize]
+        [HttpPut("UpdateNote/{NoteId}")]
+        public async Task<ActionResult<Note>> UpdateNote(int noteId, NoteUpDateModel noteUpdateModel)
+        {
+            try
+            {
+
+                var userid = User.Claims.FirstOrDefault(x => x.Type.ToString().Equals("userID", StringComparison.InvariantCultureIgnoreCase));
+                int UserId = Int32.Parse(userid.Value);
+
+                var note = fundooDbContext.notes.FirstOrDefault(e => e.UserId == UserId && e.NoteId == noteId);
+
+                if(note != null)
+                {
+                    await this.inoteBl.UpdateNote(noteId, noteUpdateModel);
+                    return this.Ok(new { success = true, message = "Note Updated Successfully" });
+                }
+
+                return this.BadRequest(new { success = false, message = "Sorry! Update notes Failed" });
+
+            }
+            catch(Exception e)
+            {
+                throw e;
+            }
+
+        }
+        [Authorize]
+        [HttpGet(("GetNote/{noteId}"))]
+        public async Task<ActionResult<Note>> GetNote(int noteId)
+        {
+            try
+            {
+                var userid = User.Claims.FirstOrDefault(x => x.Type.ToString().Equals("userID", StringComparison.InvariantCultureIgnoreCase));
+                int UserId = Int32.Parse(userid.Value);
+                var note = fundooDbContext.notes.FirstOrDefault(e => e.UserId == UserId && e.NoteId == noteId);
+                if (note != null)
+                {
+                   
+                     await this.inoteBl.GetNote(noteId);
+                     return this.Ok(new { success = true, message = "Get note Success" });
+                    
+                }
+                return this.BadRequest(new { success = false, message = "Sorry! Get Note Failed" });
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+        [Authorize]
+        [HttpPut("Trash/{noteId}")]
+        public async Task<ActionResult> IsTrash(int noteId)
+        {
+            try
+            {
+                var userid = User.Claims.FirstOrDefault(x => x.Type.ToString().Equals("userID", StringComparison.InvariantCultureIgnoreCase));
+                int userId = Int32.Parse(userid.Value);
+
+                var note = fundooDbContext.notes.FirstOrDefault(e => e.UserId == userId && e.NoteId == noteId);
+                if (note == null)
+                {
+                    return this.BadRequest(new { success = false, message = " Id does not exists" });
+                }
+                await this.inoteBl.TrashNote(userId, noteId);
+                return this.Ok(new { success = true, message = "Note Trashed successfully" });
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+
+        }
     }
 }
