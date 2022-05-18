@@ -44,6 +44,13 @@ namespace FundooNote
             services.AddTransient<InoteBl , NoteBl>();
             services.AddTransient<InoteRl , NoteRl>();
 
+            services.AddTransient<ILabelBl, LabelBl>();
+            services.AddTransient<ILabaleRl, LabelRl>();
+
+            services.AddMemoryCache();  
+
+           // services.AddStackExchangeRedisCache(options => { options.Configuration = configuration["RedisCacheUrl"]; });
+
 
             services.AddSwaggerGen(setup =>
             {
@@ -70,6 +77,12 @@ namespace FundooNote
                     {jwtSecurityScheme, Array.Empty<string>() }
                 });
             });
+
+            services.AddDistributedRedisCache(
+                option =>
+                {
+                    option.Configuration = "Localhost:6379";
+                });
 
             //login Authontication
             services.AddAuthentication(x =>

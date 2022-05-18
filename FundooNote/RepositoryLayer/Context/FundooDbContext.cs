@@ -12,6 +12,7 @@ namespace RepositoryLayer.Context
 
         public DbSet<User> user { get; set; }
         public DbSet<Note> notes{ get; set; }
+        public DbSet<Label> Label { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>()

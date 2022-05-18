@@ -22,8 +22,7 @@ namespace RepositoryLayer.Services
     {
         FundooDbContext fundooDbContext;
         public IConfiguration Configuration { get; set; }
-        public UserRl(FundooDbContext 
-            fundoo, IConfiguration configuration)
+        public UserRl(FundooDbContext fundoo, IConfiguration configuration)
         {
             this.fundooDbContext = fundoo;
             this.Configuration = configuration;

@@ -93,6 +93,11 @@ namespace BuisnessLayer.Services
             }
         }
 
+        public Task<List<Note>> GetAllNoteRedis(int userId)
+        {
+            throw new NotImplementedException();
+        }
+
         //Get note
         public  async Task<Note> GetNote(int noteId)
         {

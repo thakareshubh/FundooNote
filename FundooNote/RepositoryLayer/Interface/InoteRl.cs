@@ -18,5 +18,9 @@ namespace RepositoryLayer.Interface
         Task<Note> GetNote(int noteId);
         Task<Note> TrashNote(int userId, int noteId);
         Task<List<Note>> GetAllNote(int userId);
-    }  
+
+        
+        Task<List<Note>> GetAllNoteRedis(int userId);
+
+    }
 }
