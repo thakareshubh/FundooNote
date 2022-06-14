@@ -26,7 +26,7 @@ namespace FundooNote.Controllers
             this.iuserBl = iuserBl;
         }
 
-        [HttpPost("Add user")]
+        [HttpPost("AddUser")]
         public ActionResult AddUser(UserPostModel user)
         {
             try
@@ -40,7 +40,7 @@ namespace FundooNote.Controllers
             }
         }
 
-        [HttpPost("LoginUser")]
+        [HttpPost("Login")]
 
         public ActionResult LoginUser(string email, string password)
         {
@@ -54,7 +54,7 @@ namespace FundooNote.Controllers
                     return this.BadRequest(new { success = false, massage = $"Email or Password Invalid" });
                 }
 
-                return this.Ok(new { sucess = true, message = $"Token generated is " + token });
+                return this.Ok(new { sucess = true, message = $"Token generated is " , data= token });
             }
             catch (Exception e)
             {
@@ -63,7 +63,7 @@ namespace FundooNote.Controllers
         }
 
         //forget password
-        [HttpPost("ForgotPassword")]
+        [HttpPost("ForgotPassword/{email}")]
         public ActionResult ForgotPassword(string email)
         {
             try

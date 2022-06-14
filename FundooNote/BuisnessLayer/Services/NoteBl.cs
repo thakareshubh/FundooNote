@@ -59,24 +59,19 @@ namespace BuisnessLayer.Services
         }
 
         //Delete Note
-        public  bool DeleteNote(int noteId)
+        public async Task  DeleteNote(int userId,int noteId)
         {
-            try
             {
-                if( inoteRl.DeleteNote(noteId))
+                try
                 {
-                    return true;
+                    await inoteRl.DeleteNote( userId, noteId);
                 }
-                    
-                else
+                catch (Exception ex)
                 {
-                    return false;
+
+                    throw ex;
                 }
-                    
-            }
-            catch(Exception ex)
-            {
-                throw ex;
+
             }
         }
 

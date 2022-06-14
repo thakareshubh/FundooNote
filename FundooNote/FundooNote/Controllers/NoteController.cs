@@ -59,20 +59,21 @@ namespace FundooNote.Controllers
         /// <returns></returns>
         [Authorize]
         [HttpDelete("DeleteNote")]
-        public ActionResult DeleteNote(int UserId)
+        public async Task<ActionResult> DeleteNote(int noteId)
         {
             try
             {
-                if(inoteBl.DeleteNote(UserId))
+                var userid = User.Claims.FirstOrDefault(x => x.Type.ToString().Equals("UserID", StringComparison.InvariantCultureIgnoreCase));
+                int UserId = Int32.Parse(userid.Value);
+                var note = fundooDbContext.notes.FirstOrDefault(x => x.UserId == UserId && x.NoteId == noteId);
+                if (note == null)
                 {
-                    return this.Ok(new { success = true, message = "Note is deleted" });
+                    return this.BadRequest(new { success = false, message = "Sorry! This noteID is doesn't exist" });
                 }
-                else
-                {
-                    return this.BadRequest(new { success = false, message = "Note is not dleted" });
-                }
+                await this.inoteBl.DeleteNote(UserId, noteId);
+                return this.Ok(new { success = true, message = "Note Deleted Successfully" });
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -86,7 +87,7 @@ namespace FundooNote.Controllers
         /// <param name="color"></param>
         /// <returns></returns>
         [Authorize]
-        [HttpPut("changeColor")]
+        [HttpPut("changeColor/{noteId}/{color}")]
 
         public async Task<ActionResult>ChangeColor(int noteId,string color)
         {
@@ -119,7 +120,7 @@ namespace FundooNote.Controllers
         /// <returns></returns>
         [Authorize]
         [HttpPut("ArchiveNote")]
-        public async Task<ActionResult> ArchiveNote(int userId, int noteId)
+        public async Task<ActionResult> ArchiveNote( int noteId)
         {
             try
             {
@@ -235,6 +236,8 @@ namespace FundooNote.Controllers
                 throw ex;
             }
         }
+
+
         [Authorize]
         [HttpGet("GetAllNoteRadies")]
         public async Task<IActionResult> GetAllNotes_ByRedisCache()

@@ -5,12 +5,9 @@ using System.Text;
 
 namespace CommonLayer.Users
 {
-    public class ResetPasswordModel
+    public class lablePostModel
     {
-        
-        public string NewPassword { get; set; }
-        
-        public string ConfirmPassword { get; set; }
-
+        [Required]
+        public string lableName { get; set; }
     }
 }

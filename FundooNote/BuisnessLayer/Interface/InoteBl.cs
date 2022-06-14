@@ -10,7 +10,7 @@ namespace BuisnessLayer.Interface
     public interface InoteBl
     {
         Task AddNote(int userId, NoteModel noteModel);
-        bool DeleteNote(int noteId);
+        Task DeleteNote(int noteId,int userId);
         Task ArchiveNote(int userId, int noteId);
         Task ChangeColor(int userId, int noteId, string color);
         Task<Note> UpdateNote(int noteId, NoteUpDateModel noteUpdateModel);

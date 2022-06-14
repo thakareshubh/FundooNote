@@ -21,6 +21,7 @@ using Microsoft.OpenApi.Models;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
+
 namespace FundooNote
 {
     public class Startup
@@ -47,9 +48,22 @@ namespace FundooNote
             services.AddTransient<ILabelBl, LabelBl>();
             services.AddTransient<ILabaleRl, LabelRl>();
 
-            services.AddMemoryCache();  
+            services.AddMemoryCache();
+            services.AddCors(options =>
+            {
+                options.AddPolicy(
+                    name: "AllowOrigin",
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
 
-           // services.AddStackExchangeRedisCache(options => { options.Configuration = configuration["RedisCacheUrl"]; });
+                    });
+            });
+            services.AddControllers().AddNewtonsoftJson();
+
+
+
+            // services.AddStackExchangeRedisCache(options => { options.Configuration = configuration["RedisCacheUrl"]; });
 
 
             services.AddSwaggerGen(setup =>
@@ -111,6 +125,7 @@ namespace FundooNote
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseCors("AllowOrigin");
 
             app.UseAuthentication();
             app.UseHttpsRedirection();

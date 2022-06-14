@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
+using System.Text.Json;
 
 namespace CommonLayer.Users
 {
@@ -18,7 +18,7 @@ namespace CommonLayer.Users
         public string lastName { get; set; }
 
         [Required]
-        [RegularExpression("^[a-z]{3,}[1-9]{1,4}[@][a-z]{4,}[.][a-z]{3,}$", ErrorMessage = "Please Enter Valid Email")]
+        [RegularExpression("^[a-z]{3,}[1-9]{1,4}[@][a-z]{3,}[.][a-z]{2,}$", ErrorMessage = "Please Enter Valid Email")]
         public string email { get; set; }
 
         public string password { get; set; }

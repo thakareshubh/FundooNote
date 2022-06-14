@@ -170,7 +170,7 @@ namespace RepositoryLayer.Services
                 {
                     new Claim("Email", email)
                 }),
-                Expires = DateTime.UtcNow.AddHours(1),
+                Expires = DateTime.UtcNow.AddHours(24),
                 SigningCredentials =
                 new SigningCredentials(
                     new SymmetricSecurityKey(tokenKey),

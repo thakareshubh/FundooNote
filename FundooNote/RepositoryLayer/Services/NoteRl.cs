@@ -51,19 +51,20 @@ namespace RepositoryLayer.Services
         }
 
         //Delete Note
-        public bool DeleteNote(int noteId)
+        public async Task DeleteNote(int userId,int noteId)
         {
-            Note note = fundooDbContext.notes.FirstOrDefault(e => e.NoteId == noteId);
-            if (note == null)
+            try
             {
-                fundooDbContext.Remove(note);
-                fundooDbContext.SaveChanges();
-                return true;
+                var note = fundooDbContext.notes.FirstOrDefault(u => u.NoteId == noteId && u.UserId == userId);
+                fundooDbContext.notes.Remove(note);
+                await fundooDbContext.SaveChangesAsync();
             }
-            else
+            catch (Exception ex)
             {
-                return false;
+
+                throw ex;
             }
+
         }
         //Change color of note
         public async Task ChangeColor(int userId, int noteId, string color)
